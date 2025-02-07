@@ -1,0 +1,84 @@
+[package]
+name = "rtc"
+version = "0.2.75"
+description = "RTC module for Noor"
+authors = ["Noor Chat"]
+edition = "2021"
+rust-version = "1.75"
+
+[dependencies]
+# Core dependencies from workspace
+serde = { version = "1", features = ["derive"] }
+log = { version = "0.4", features = ["release_max_level_debug"] }
+serde_json = "1"
+thiserror = "1"
+
+# RTC-specific dependencies
+tokio = { version = "1", features = ["full", "rt"] }
+futures = "0.3"
+futures-util = "0.3"
+anyhow = "1"
+bytes = "1"
+async-trait = "0.1.67"
+
+# Audio processing
+cpal = { git = "https://github.com/morajabi/cpal", rev = "6728e272c08460396ef6b3b27da54ed020fa26ce" }
+ringbuf = "0.3"
+rubato = "0.14"
+audio_thread_priority = "0.30"
+webrtc-audio-processing = { git = "https://github.com/morajabi/webrtc-audio-processing", rev = "f2d3926957770653add3791dc4d5a3dba715e24c", features = [
+  "bundled",
+  "derive_serde",
+] }
+opus = { git = "https://github.com/morajabi/opus-rs", branch = "add-complexity" }
+
+# WebRTC dependencies
+webrtc = { git = "https://github.com/webrtc-rs/webrtc", rev = "23d2e6088d761b700842eab4f02d492bc2a12119" }
+str0m = { git = "https://github.com/algesten/str0m", rev = "0e9c9225d796df1b275340d3a909c77321a959fc" }
+stun-client = { git = "https://github.com/yoshd/stun-client", rev = "4ccfc3a9944dac8bfbe52d0030f0fc31b7fbbb14" }
+
+[target."cfg(target_os = \"macos\")".dependencies]
+objc = "0.2"
+cocoa = "0.25"
+core-graphics = "0.23"
+objc2 = { version = "0.4.1", features = ["relax-void-encoding"] }
+icrate = { version = "0.0.4", features = [
+  "apple",
+  "Foundation",
+  "Foundation_all",
+  "Foundation_NSString",
+  "AppKit",
+  "AppKit_NSApplication",
+  "AppKit_NSWindow",
+  "AppKit_NSResponder",
+  "CoreAnimation",
+  "CoreAnimation_CALayer",
+] }
+objc-foundation = "0.1.1"
+objc_id = "0.1.1"
+
+[profile.dev]
+split-debuginfo = "unpacked"
+opt-level = 0
+debug = 0
+strip = "none"
+lto = false
+codegen-units = 256
+incremental = true
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true
+
+# Optimize performance-critical dependencies
+[profile.release.package.webrtc-audio-processing]
+opt-level = 3
+
+[profile.release.package.str0m]
+opt-level = 3
+
+[profile.release.package.cpal]
+opt-level = 3

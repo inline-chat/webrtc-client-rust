@@ -1,0 +1,55 @@
+[package]
+name = "cap"
+version = "0.0.1"
+edition = "2021"
+
+[dependencies]
+cidre = { git = "https://github.com/yury/cidre", rev = "36948a64bf3a4c2a4cfdc6387f419fe98b7c01d7", default-features = false, features = [
+  "private",
+
+  "blocks",
+  "async",
+
+  "app",
+  "am",
+  "at",
+  # "ca",
+  "ci",
+  "cm",
+  "cmio",
+  "ct",
+  # "av",
+  "cf",
+  "cg",
+  "iio",
+  "ns",
+  "vt",
+  "sc",
+  "mtl",
+  "mlc",
+  "cv",
+  "objc",
+  "av",
+  "ca",
+  # "mps",
+  # "mpsg",
+  "dispatch",
+  "simd",
+  "cat",
+  "vn",
+  "sn",
+  "ui",
+  "io",
+  "nw",
+  "core_motion",
+  # "wk",
+] }
+flume = "0.11"
+bytes = "1.1"
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["full", "rt"] }
+futures = { version = "0.3" }
+core-graphics = { version = "0.23" }
+sysinfo = "0.30"
+anyhow = "1"
+thiserror = "1"
